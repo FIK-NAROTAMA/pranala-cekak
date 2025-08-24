@@ -12,7 +12,7 @@ class Users extends Authenticatable
     use CanResetPassword;
 
     protected $fillable = [
-        'email_address',
+        'email',
         'password',
         'full_name',
         'active'

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -25,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/dashboard';
 
     /**
      * Create a new controller instance.
@@ -36,5 +37,27 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
+    }
+
+    public function showLoginForm()
+    {
+        $url = request()->get('url', '/');
+        return view('auth.login', compact('url'));
+    }
+
+    public function login(Request $request)
+    {
+
+        $credentials = $request->only('email', 'password');
+        if (auth()->attempt($credentials)) {
+            dd ('Login successful. Redirecting... to ' . $this->redirectTo);
+            return redirect()->intended($this->redirectTo);
+        }
+        dd ('Login failed. Please check your credentials.');
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
+
     }
 }

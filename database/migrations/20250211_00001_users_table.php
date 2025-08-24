@@ -13,7 +13,7 @@ return new class extends Migration
             $table->id()->comment('Column ID as a Primary key');
             $table->timestamps();
             $table->boolean('active')->default(true)->nullable(false)->comment('this user active or not?');
-            $table->string('email_address', 255)->nullable(false)->unique()->comment('Email address also used for login name');
+            $table->string('email', 64)->nullable(false)->unique()->comment('Email address also used for login name');
             $table->string('full_name', 255)->nullable(false)->comment('User full name');
             $table->string('password', 60)->nullable(false)->comment('password using bcrypt');
             // table comment

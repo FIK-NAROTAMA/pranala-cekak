@@ -19,7 +19,7 @@ class UsersSeeder extends Seeder
         foreach ($datas as $key => $value)
         {
             Users::create([
-                'email_address' => $value->email_address,
+                'email' => $value->email,
                 'full_name' => $value->full_name,
                 'password' => Hash::make($value->password)
             ]);
