@@ -2,6 +2,7 @@
     { 
         "email": "admin@domain.id",
         "password": "L@HGlK23YM^%kh",
-        "full_name": "Administrator"
+        "full_name": "Administrator",
+        "admin": true
     }
 ]

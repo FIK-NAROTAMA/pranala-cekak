@@ -15,6 +15,9 @@ class Users extends Authenticatable
         'email',
         'password',
         'full_name',
-        'active'
+        'active',
+        'admin',
+        'cookies_token',
+        'forgot_token'
     ];
 }

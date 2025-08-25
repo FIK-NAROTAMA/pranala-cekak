@@ -21,7 +21,8 @@ class UsersSeeder extends Seeder
             Users::create([
                 'email' => $value->email,
                 'full_name' => $value->full_name,
-                'password' => Hash::make($value->password)
+                'password' => Hash::make($value->password),
+                'admin' => $value->admin ?? false
             ]);
         }  
     }

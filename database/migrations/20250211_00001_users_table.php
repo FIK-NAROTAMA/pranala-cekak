@@ -12,10 +12,13 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id()->comment('Column ID as a Primary key');
             $table->timestamps();
-            $table->boolean('active')->default(true)->nullable(false)->comment('this user active or not?');
+            $table->boolean('active')->nullable(false)->default(true)->comment('this user active or not?');
             $table->string('email', 64)->nullable(false)->unique()->comment('Email address also used for login name');
             $table->string('full_name', 255)->nullable(false)->comment('User full name');
             $table->string('password', 60)->nullable(false)->comment('password using bcrypt');
+            $table->boolean('admin')->nullable(false)->default(false)->comment('is this user is admin?');
+            $table->string('cookies_token', 32)->nullable(true)->default(null)->unique()->comment('cookies token for user');
+            $table->string('forgot_token', 32)->nullable(true)->default(null)->unique()->comment('forgot password token for user');
             // table comment
             $table->comment('Users information');
         });
