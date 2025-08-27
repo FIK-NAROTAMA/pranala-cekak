@@ -8,7 +8,7 @@ Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLog
 Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
 Route::get('/reset', [App\Http\Controllers\Auth\ResetController::class, 'showResetForm'])->name('resetform');
 Route::post('/reset', [App\Http\Controllers\Auth\ResetController::class, 'reset'])->name('reset');
-Route::get('/reset/{token}', [App\Http\Controllers\Auth\ResetController::class, 'newpassword'])->name('newpasswordForm');
+Route::get('/reset/{token}', [App\Http\Controllers\Auth\ResetController::class, 'newPasswordForm'])->name('newpasswordForm');
 Route::post('/newpassword', [App\Http\Controllers\Auth\ResetController::class, 'newpassword'])->name('newpassword');
 
 Route::get('/', [App\Http\Controllers\LandingPage::class, 'index'])->name('home');
