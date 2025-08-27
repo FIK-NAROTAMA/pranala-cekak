@@ -23,7 +23,8 @@ class ResetController extends Controller
 
     public function reset(Request $request)
     {
-        $url = $request->fullUrl();
+        //$url = $request->fullUrl();
+        $url = config('app.url');
         $titleFunction = 'Reset Password';
 
         $email = $request->input('email');
@@ -38,24 +39,55 @@ class ResetController extends Controller
         return view('auth.resetmessage', compact('url', 'titleFunction'));
     }
 
-    public function newpassword(Request $request, $token)
+    public function newPasswordForm(Request $request, $token)
     {
-        $url = $request->fullUrl();
+        //$url = $request->fullUrl();
+        $url = config('app.url');
         $titleFunction = 'Reset Password';
         $user = Users::where('forgot_token', $token)
             ->where('forgot_token_expired', '>', now())
             ->first();
         if ($user)
         {
+            $user->forgot_token_expired = now();
+            $user->save();
             $pesanKesalahan = "";
-            return view('auth.newpassword', compact('url', 'titleFunction', 'pesanKesalahan'));
+            return view('auth.newpassword', compact('url', 'titleFunction', 'pesanKesalahan', 'token'));
         }
         else
         {
             return view('auth.notoken', compact('url', 'titleFunction'));
         }
-            
+    }
 
+    public function newpassword(Request $request)
+    {
+        $password = $request->password;
+        $password_check = $request->password_check;
+        $token = $request->token;
+        $url = config('app.url');
+        $titleFunction = 'Reset Password';
+        $user = Users::where('forgot_token', $token)
+            ->first();
+        if ($password !== $password_check)
+        {
+            return view('auth.notoken', compact('url', 'titleFunction'));
+        }
 
+        if ($user)
+        {
+            $user->password = bcrypt($password);
+            $user->cookies_token = null;
+            $user->forgot_token = null;
+            $user->forgot_token_expired = null;
+            $user->save();
+            $pesanKesalahan = "";
+            dd('Password berhasil diubah. Silakan login dengan password baru.');
+            return view('auth.newpassword', compact('url', 'titleFunction', 'pesanKesalahan', 'token'));
+        }
+        else
+        {
+            return view('auth.notoken', compact('url', 'titleFunction'));
+        }
     }
 }
