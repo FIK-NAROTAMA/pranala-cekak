@@ -8,10 +8,9 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name') }}</title>
-    <meta property="og:title" content="{{ config('app.name') }} - 404" />
-    <meta property="og:description" content="URL tidak ditemukan atau sudah kadaluwarsa. Silakan dikonfirmasi pada pemberi URL ini." />
-    <meta property="og:type" content="a private URL shortener" />
+    <title>{{ config('app.name') }} - {{ $titleFunction }}</title>
+    <meta property="og:title" content="{{ config('app.name') }} -" />
+    <meta property="og:description" content="Pranala Cekak adalah private URL Shortener maintained by FIK - Universitas Narotama" />
     <meta property="og:url" content="{{ $url }}" />
     <meta property="og:image" content="{{ asset('images/logo.png') }}" />
 
