@@ -17,6 +17,7 @@
 
               <form id="formAuthentication" class="mb-3" action="{{ route('newpassword') }}" method="POST">
                 @csrf
+                <input type="hidden" name="token" value="{{ $token }}">
                 <div class="mb-2 mt-4 form-password-toggle">
                   <label class="form-label mb-n1" for="password" style="font-size:0.7rem;">Password minimal 8 karakter, ada huruf besar, kecil, dan angka.</label>
                   <div class="input-group input-group-merge">
@@ -27,7 +28,7 @@
                 <div class="mb-3 form-password-toggle">
                   <label class="form-label mb-n1" for="password">Password check</label>
                   <div class="input-group input-group-merge">
-                    <input type="password" id="password_confirmation" class="form-control" name="password" placeholder="P@s5w0rD;" oninput="validatePassword()" aria-describedby="password" required />
+                    <input type="password" id="password_confirmation" class="form-control" name="password_check" placeholder="P@s5w0rD;" oninput="validatePassword()" aria-describedby="password" required />
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
                 </div>
