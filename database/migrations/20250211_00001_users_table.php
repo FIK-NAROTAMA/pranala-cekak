@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('admin')->nullable(false)->default(false)->comment('is this user is admin?');
             $table->string('cookies_token', 32)->nullable(true)->default(null)->unique()->comment('cookies token for user');
             $table->string('forgot_token', 32)->nullable(true)->default(null)->unique()->comment('forgot password token for user');
+            $table->dateTime('forgot_token_expired')->nullable(true)->default(null)->comment('forgot password token expired time');
             // table comment
             $table->comment('Users information');
         });
