@@ -42,7 +42,18 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         $url = request()->get('url', '/');
-        return view('auth.login', compact('url'));
+        $titleFunction = 'Login';
+        $pesanKesalahan = "";
+        $valueEmail = "";
+        $valuePassword = "";
+        return view('auth.login', compact('url', 'titleFunction', 'pesanKesalahan', 'valueEmail', 'valuePassword'));
+    }
+
+    public function showResetForm()
+    {
+        $url = request()->get('url', '/');
+        $titleFunction = 'Reset Password';
+        return view('auth.reset', compact('url', 'titleFunction'));
     }
 
     public function login(Request $request)
@@ -50,14 +61,29 @@ class LoginController extends Controller
 
         $credentials = $request->only('email', 'password');
         if (auth()->attempt($credentials)) {
-            dd ('Login successful. Redirecting... to ' . $this->redirectTo);
+            // Generate a random token
+            $token = bin2hex(random_bytes(16));
+            // Simpan token ke kolom cookies_token
+            $user = auth()->user();
+            $user->cookies_token = $token;
+            $user->save();
+
+            // Authentication passed...
+            dd ('Login successful. Redirecting... to ' . $this->redirectTo . ' with token ' . $token);
             return redirect()->intended($this->redirectTo);
         }
-        dd ('Login failed. Please check your credentials.');
+        else {
+            $url = request()->get('url', '/');
+            $titleFunction = 'Login';
+            $pesanKesalahan = "<em>Credentials</em> tidak sesuai.";
+            $valueEmail = $request->input('email');
+            $valuePassword = $request->input('password');
+            return view('auth.login', compact('url', 'titleFunction', 'pesanKesalahan', 'valueEmail', 'valuePassword'));
+        }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+//        return back()->withErrors([
+//            'email' => 'The provided credentials do not match our records.',
+//        ]);
 
     }
 }
