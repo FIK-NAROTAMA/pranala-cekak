@@ -71,6 +71,7 @@ class ResetController extends Controller
             ->first();
         if ($password !== $password_check)
         {
+            dd('Password: ' . $password . ' dan Konfirmasi Password ' . $password_check . 'tidak sesuai. Silakan ulangi.');
             return view('auth.notoken', compact('url', 'titleFunction'));
         }
 
@@ -82,8 +83,8 @@ class ResetController extends Controller
             $user->forgot_token_expired = null;
             $user->save();
             $pesanKesalahan = "";
-            dd('Password berhasil diubah. Silakan login dengan password baru.');
-            return view('auth.newpassword', compact('url', 'titleFunction', 'pesanKesalahan', 'token'));
+//            dd('Password berhasil diubah. Silakan login dengan password baru.');
+            return view('auth.sukseschangepassword', compact('url', 'titleFunction', 'pesanKesalahan', 'token'));
         }
         else
         {

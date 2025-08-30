@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 //Login routes
-Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('loginform');
+Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
 Route::get('/reset', [App\Http\Controllers\Auth\ResetController::class, 'showResetForm'])->name('resetform');
 Route::post('/reset', [App\Http\Controllers\Auth\ResetController::class, 'reset'])->name('reset');
