@@ -10,9 +10,12 @@ Route::get('/reset', [App\Http\Controllers\Auth\ResetController::class, 'showRes
 Route::post('/reset', [App\Http\Controllers\Auth\ResetController::class, 'reset'])->name('reset');
 Route::get('/reset/{token}', [App\Http\Controllers\Auth\ResetController::class, 'newPasswordForm'])->name('newpasswordForm');
 Route::post('/newpassword', [App\Http\Controllers\Auth\ResetController::class, 'newpassword'])->name('newpassword');
+Route::get('/dashboard', [App\Http\Controllers\Dashboards\DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/', [App\Http\Controllers\LandingPage::class, 'index'])->name('home');
 Route::get('/{uri}', [App\Http\Controllers\LandingPage::class, 'index']);
 
+
 Auth::routes();
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+Route::get('/dashboard/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+Route::get('/dashboard', [App\Http\Controllers\Dashboards\DashboardController::class, 'index'])->name('dashboard');

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use App\Models\Users;
+
 
 class LoginController extends Controller
 {
@@ -58,18 +60,14 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-
         $credentials = $request->only('email', 'password');
         if (auth()->attempt($credentials)) {
-            // Generate a random token
             $token = bin2hex(random_bytes(16));
-            // Simpan token ke kolom cookies_token
             $user = auth()->user();
             $user->cookies_token = $token;
             $user->save();
-
-            // Authentication passed...
-            dd ('Login successful. Redirecting... to ' . $this->redirectTo . ' with token ' . $token);
+            $authenticatedUser = auth()->user();
+            cookie()->queue('auth_token', $token, 60);  // 60 minutes
             return redirect()->intended($this->redirectTo);
         }
         else {
@@ -80,10 +78,25 @@ class LoginController extends Controller
             $valuePassword = $request->input('password');
             return view('auth.login', compact('url', 'titleFunction', 'pesanKesalahan', 'valueEmail', 'valuePassword'));
         }
+    }
 
-//        return back()->withErrors([
-//            'email' => 'The provided credentials do not match our records.',
-//        ]);
-
+    public function logout(Request $request)
+    {
+        $token = $request->cookie('auth_token');
+        if (!$token) {
+            // If the token is not present, redirect to login page
+            return redirect(route('login'));
+        }
+        $user = Users::where('cookies_token', $token)->first();
+        if (!$user) {
+            $request->session()->invalidate();       // Hapus semua data session
+            $request->session()->regenerateToken();
+            return redirect(route('login'));
+        }
+        $user->cookies_token = null;
+        $user->save();
+        auth()->logout();
+        cookie()->queue(cookie()->forget('auth_token'));
+        return redirect('/login');
     }
 }

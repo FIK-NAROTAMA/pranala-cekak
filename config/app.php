@@ -123,7 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-    'footer' => env('APP_FOOTER', 'APA YA??'),
-
-
+    'footer' => env('APP_FOOTER', "<a href='https://github.com/FIK-NAROTAMA/pranala-cekak' target=_>Pranala-Cekak&reg;</a>, a private URL shortener by <a href='https://fasilkom.narotama.ac.id' target=_>FIK</a> - <a href='https://narotama.ac.id' target=_>NAROTAMA</a>"),
+    'tagline' => env('APP_TAG', 'a private URL shortener'),
 ];
